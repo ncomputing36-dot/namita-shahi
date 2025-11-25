@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>One Call - All Services</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f7fb;
+            text-align: center;
+        }
+        header {
+            background: #4b7bec;
+            color: white;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .brand-symbol {
+            font-size: 80px;
+            margin-top: 40px;
+        }
+        button, .btn {
+            background: #4b7bec;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        button:hover, .btn:hover {
+            background: #3867d6;
+        }
+        .container {
+            margin-top: 40px;
+            display: none;
+        }
+        .input-box {
+            padding: 12px;
+            width: 250px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+
+    <script>
+        // Show a specific section
+        function showPage(page) {
+            document.querySelectorAll('.container').forEach(div => div.style.display = 'none');
+            document.getElementById(page).style.display = 'block';
+        }
+
+        // Login function
+        function loginUser() {
+            let user = document.getElementById("username").value;
+            let pass = document.getElementById("password").value;
+
+            if (user.trim() === "" || pass.trim() === "") {
+                alert("Please fill all details.");
+                return;
+            }
+
+            localStorage.setItem("onecall_loggedin", "true");
+
+            alert("Login Successful!");
+            showPage("servicesPage");
+        }
+
+        // Protect services page
+        function goToServices() {
+            let loggedIn = localStorage.getItem("onecall_loggedin");
+
+            if (loggedIn !== "true") {
+                alert("Please login first!");
+                showPage("loginPage");
+            } else {
+                showPage("servicesPage");
+            }
+        }
+
+        // On load show first page
+        window.onload = function() {
+            showPage("homePage");
+        }
+    </script>
+</head>
+
+<body>
+
+<header>One Call</header>
+
+<!-- ----------------------- PAGE 1: OVERVIEW ----------------------- -->
+<div class="container" id="homePage">
+    <div class="brand-symbol">📞✨</div>
+    <h2>Your One Stop Solution For All Services</h2>
+    <p>Fast. Reliable. Easy.</p>
+
+    <button onclick="showPage('loginPage')">Get Started</button>
+</div>
+
+<!-- ----------------------- PAGE 2: LOGIN ----------------------- -->
+<div class="container" id="loginPage">
+    <h2>Login to Continue</h2>
+
+    <input id="username" class="input-box" type="text" placeholder="Enter Username"><br><br>
+    <input id="password" class="input-box" type="password" placeholder="Enter Password"><br><br>
+
+    <button onclick="loginUser()">Login</button>
+
+    <br><br>
+    <button onclick="showPage('helpPage')" class="btn">Need Help?</button>
+</div>
+
+<!-- ----------------------- PAGE 3: SERVICES (LOCKED) ----------------------- -->
+<div class="container" id="servicesPage">
+    <h2>Select a Service</h2>
+
+    <button class="btn">Home Cleaning</button><br><br>
+    <button class="btn">Electrician</button><br><br>
+    <button class="btn">Plumbing</button><br><br>
+    <button class="btn">Appliance Repair</button><br><br>
+
+    <button onclick="showPage('homePage')" class="btn">Back to Home</button>
+</div>
+
+<!-- ----------------------- PAGE 4: HELP ----------------------- -->
+<div class="container" id="helpPage">
+    <h2>Help & Support</h2>
+
+    <p>✔ How to Login</p>
+    <p>✔ How to Book a Service</p>
+    <p>✔ Contact Customer Support</p>
+    <p>✔ Troubleshooting Guide</p>
+
+    <button onclick="showPage('homePage')" class="btn">Back to Home</button>
+</div>
+
+</body>
+</html>
